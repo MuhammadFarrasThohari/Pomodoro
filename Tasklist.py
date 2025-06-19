@@ -31,12 +31,29 @@ def add_task_to_ui(task_text):
 
 # Saat klik "Add a task"
 def on_add_task():
-    dialog = ctk.CTkInputDialog(title="Tambah Task", text="Masukkan nama task:")
-    new_task = dialog.get_input()
-    if new_task and new_task.strip() != "":
-        tasks.append(new_task)
-        save_tasks(tasks)
-        add_task_to_ui(new_task)
+    popup = ctk.CTkToplevel()
+    popup.title("Tambah Task")
+    popup.geometry("300x120")
+    popup.grab_set()  # Fokus di popup
+
+    label = ctk.CTkLabel(popup, text="Masukkan nama task:")
+    label.pack(pady=(10, 5))
+
+    entry = ctk.CTkEntry(popup, width=250)
+    entry.pack(pady=(0, 10))
+    entry.bind("<Return>", lambda event: save_and_close())
+
+    def save_and_close():
+        new_task = entry.get()
+        if new_task.strip() != "":
+            tasks.append(new_task)
+            save_tasks(tasks)
+            add_task_to_ui(new_task)
+        popup.destroy()
+
+    submit_btn = ctk.CTkButton(popup, text="Simpan", command=save_and_close)
+    submit_btn.pack(pady=(0, 10))
+
 
 # -------- UI ---------
 root = ctk.CTk()
@@ -68,17 +85,36 @@ checkbox_list = []
 for task in tasks:
     add_task_to_ui(task)
 
-# Tombol tambah task
+
+# Container baru untuk tombol dan label
+add_container = ctk.CTkFrame(formFrame, fg_color="#4CAF50")
+add_container.grid(row=1, column=0, sticky="w", padx=10, pady=(5, 10))
+
+# Tombol bulat "+"
 add_btn = ctk.CTkButton(
-    formFrame, 
-    text="Add a task", 
-    fg_color="#4CAF50", 
-    text_color="white", 
-    hover_color="#45A049", 
-    font=ctk.CTkFont(size=16),
+    add_container,
+    text="+",
+    width=10,
+    height=15,
+    font=ctk.CTkFont(size=24, weight="bold"),
+    fg_color="white",
+    text_color="#4CAF50",
+    hover_color="#E8F5E9",
+    corner_radius=100,
     command=on_add_task
 )
-add_btn.grid(row=1, column=0, sticky="w", padx=20, pady=(0, 10))
+add_btn.pack(side="left", padx=(5, 10), pady=5)
+
+# Label "Add a task"
+add_label = ctk.CTkLabel(
+    add_container,
+    text="Add a task",
+    font=ctk.CTkFont(family="jersey 10", size=18),
+    text_color="white"
+)
+add_label.pack(side="left", pady=5)
+
+
 
 # Menu bawah
 menuBawahFrame = ctk.CTkFrame(root, fg_color="#F1F1F1")
