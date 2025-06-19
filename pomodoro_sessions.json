@@ -28,5 +28,15 @@
         "jumlah_Shortbreak": 0,
         "jumlah_Longbreak": 0,
         "total_durasi": "0:00:03.279374"
+    },
+    {
+        "tanggal": "2025-06-19",
+        "judul": "Belajar Tkinter",
+        "mulai": "08:17:07",
+        "selesai": "08:17:42",
+        "jumlah_fokus": 1,
+        "jumlah_Shortbreak": 1,
+        "jumlah_Longbreak": 0,
+        "total_durasi": "0:00:35.184684"
     }
 ]

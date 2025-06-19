@@ -219,10 +219,14 @@ def buka_task_list(current_wdw):
     current_wdw.destroy()
     subprocess.Popen(['python', 'Riwayat.py'])
 
+def buka_task_list(current_wdw):
+    current_wdw.destroy()
+    subprocess.Popen(['python', 'Tasklist.py'])
+
 taskListLabel = ctk.CTkLabel(menuBawahFrame, text="Task List", text_color="black",
                              font=ctk.CTkFont("jersey 10", 15), cursor="hand2")
 taskListLabel.pack(side="left", padx=10, pady=10)
-taskListLabel.bind("<Button-1>", lambda e: print("Open Task List"))
+taskListLabel.bind("<Button-1>", lambda e: buka_task_list(root))
 
 
 def buka_riwayat(current_wdw):

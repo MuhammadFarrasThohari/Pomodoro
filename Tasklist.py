@@ -130,11 +130,15 @@ def open_home_py():
     root.destroy()  # tutup window sekarang
     subprocess.Popen([sys.executable, "home.py"])
 
+def open_riwayat_py():
+    root.destroy()  # tutup window sekarang
+    subprocess.Popen([sys.executable, "Riwayat.py"])
+
 taskListLabel.bind("<Button-1>", lambda e: open_home_py())
 
 
 riwayatLabel = ctk.CTkLabel(menuBawahFrame, text="Riwayat", text_color="black", font=ctk.CTkFont(family="jersey 10", size=18), cursor="hand2")
 riwayatLabel.grid(row=0, column=1, sticky="e", padx=10, pady=10)
-riwayatLabel.bind("<Button-1>", lambda e: print("Open Riwayat"))
+riwayatLabel.bind("<Button-1>", lambda e: open_riwayat_py())
 
 root.mainloop()
