@@ -11,12 +11,22 @@
     },
     {
         "tanggal": "2025-06-18",
-        "judul": "Belajar Ngoding",
-        "mulai": "09:35:59",
-        "selesai": "09:36:00",
+        "judul": "Js",
+        "mulai": "10:37:28",
+        "selesai": "10:37:36",
         "jumlah_fokus": 0,
         "jumlah_Shortbreak": 0,
         "jumlah_Longbreak": 0,
-        "total_durasi": "0:00:01.407235"
+        "total_durasi": "0:00:08.471842"
+    },
+    {
+        "tanggal": "2025-06-18",
+        "judul": "Membaca",
+        "mulai": "11:30:02",
+        "selesai": "11:30:05",
+        "jumlah_fokus": 0,
+        "jumlah_Shortbreak": 0,
+        "jumlah_Longbreak": 0,
+        "total_durasi": "0:00:03.279374"
     }
 ]

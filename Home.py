@@ -2,6 +2,7 @@ import customtkinter as ctk
 import datetime
 import os
 import json
+import subprocess
 
 # Membuat window utama
 root = ctk.CTk()
@@ -197,12 +198,12 @@ buttonBawahFrame.grid_columnconfigure(1, weight=1)
 
 resetButton = ctk.CTkButton(buttonBawahFrame, text="Stop", fg_color="transparent", command=stop_timer,
                             width=100, height=40, text_color="#C72C41", font=ctk.CTkFont("jersey 10", 15),
-                            hover_color="#C72C41", border_color="#C72C41", border_width=2)
+                            hover_color="#D79CA5", border_color="#C72C41", border_width=2)
 resetButton.grid(row=0, column=0, padx=5, pady=5)
 
 pauseButton = ctk.CTkButton(buttonBawahFrame, text="Pause", fg_color="transparent", command=pause_timer,
                             width=100, height=40, text_color="#F6A600", font=ctk.CTkFont("jersey 10", 15),
-                            hover_color="#F6A600", border_color="#F6A600", border_width=2)
+                            hover_color="#F3E3C4", border_color="#F6A600", border_width=2)
 pauseButton.grid(row=0, column=1, padx=5, pady=5)
 
 # Navigasi bawah
@@ -214,15 +215,27 @@ judulEntry = ctk.CTkEntry(root, width=250, placeholder_text="Judul sesi (misal: 
                           font=ctk.CTkFont("jersey 10", size=15), fg_color="white", text_color="black")
 judulEntry.pack(pady=10)
 
+def buka_task_list(current_wdw):
+    current_wdw.destroy()
+    subprocess.Popen(['python', 'Riwayat.py'])
 
 taskListLabel = ctk.CTkLabel(menuBawahFrame, text="Task List", text_color="black",
                              font=ctk.CTkFont("jersey 10", 15), cursor="hand2")
 taskListLabel.pack(side="left", padx=10, pady=10)
 taskListLabel.bind("<Button-1>", lambda e: print("Open Task List"))
 
+
+def buka_riwayat(current_wdw):
+    current_wdw.destroy()
+    subprocess.Popen(['python', 'Riwayat.py'])
+
+
 riwayatLabel = ctk.CTkLabel(menuBawahFrame, text="Riwayat", text_color="black",
                             font=ctk.CTkFont("jersey 10", 15), cursor="hand2")
 riwayatLabel.pack(side="right", padx=10, pady=10)
-riwayatLabel.bind("<Button-1>", lambda e: print("Open Riwayat"))
+riwayatLabel.bind("<Button-1>", lambda e: buka_riwayat(root))
+
+riwayatLabel.bind("<Enter>", lambda e: riwayatLabel.configure(text_color="#606060"))
+riwayatLabel.bind("<Leave>", lambda e: riwayatLabel.configure(text_color="black"))
 
 root.mainloop()
