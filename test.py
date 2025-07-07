@@ -1,58 +1,58 @@
-import customtkinter as ctk
+import tkinter as tk
 
-class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
-        self.geometry("400x300")
-        self.title("Navigasi Halaman")
+class Page(tk.Frame):
+    def __init__(self, *args, **kwargs):
+        tk.Frame.__init__(self, *args, **kwargs)
+    def show(self):
+        self.lift()
 
-        # Container utama untuk halaman-halaman
-        self.container = ctk.CTkFrame(self)
-        self.container.pack(fill="both", expand=True)
+class Page1(Page):
+   def __init__(self, *args, **kwargs):
+       Page.__init__(self, *args, **kwargs)
+       label = tk.Label(self, text="This is page 1")
+       label.pack(side="top", fill="both", expand=True)
 
-        self.frames = {}
+class Page2(Page):
+   def __init__(self, *args, **kwargs):
+       Page.__init__(self, *args, **kwargs)
+       label = tk.Label(self, text="This is page 2")
+       label.pack(side="top", fill="both", expand=True)
 
-        for F in (HalamanUtama, TaskList, Riwayat):
-            frame = F(self.container, self)
-            self.frames[F] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+class Page3(Page):
+   def __init__(self, *args, **kwargs):
+       Page.__init__(self, *args, **kwargs)
+       label = tk.Label(self, text="This is page 3")
+       label.pack(side="top", fill="both", expand=True)
 
-        self.tampilkan_halaman(HalamanUtama)
+class MainView(tk.Frame):
+    def __init__(self, *args, **kwargs):
+        tk.Frame.__init__(self, *args, **kwargs)
+        p1 = Page1(self)
+        p2 = Page2(self)
+        p3 = Page3(self)
 
-    def tampilkan_halaman(self, page):
-        frame = self.frames[page]
-        frame.tkraise()
+        buttonframe = tk.Frame(self)
+        container = tk.Frame(self)
+        buttonframe.pack(side="top", fill="x", expand=False)
+        container.pack(side="top", fill="both", expand=True)
 
+        p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-class HalamanUtama(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        label = ctk.CTkLabel(self, text="Ini Halaman Utama")
-        label.pack(pady=10)
-        tombol_task = ctk.CTkButton(self, text="Ke Task List", command=lambda: controller.tampilkan_halaman(TaskList))
-        tombol_task.pack(pady=5)
-        tombol_riwayat = ctk.CTkButton(self, text="Ke Riwayat", command=lambda: controller.tampilkan_halaman(Riwayat))
-        tombol_riwayat.pack(pady=5)
+        b1 = tk.Button(buttonframe, text="Page 1", command=p1.show)
+        b2 = tk.Button(buttonframe, text="Page 2", command=p2.show)
+        b3 = tk.Button(buttonframe, text="Page 3", command=p3.show)
 
+        b1.pack(side="left")
+        b2.pack(side="left")
+        b3.pack(side="left")
 
-class TaskList(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        label = ctk.CTkLabel(self, text="Ini Halaman Task List")
-        label.pack(pady=10)
-        tombol_kembali = ctk.CTkButton(self, text="Kembali", command=lambda: controller.tampilkan_halaman(HalamanUtama))
-        tombol_kembali.pack(pady=5)
-
-
-class Riwayat(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        label = ctk.CTkLabel(self, text="Ini Halaman Riwayat")
-        label.pack(pady=10)
-        tombol_kembali = ctk.CTkButton(self, text="Kembali", command=lambda: controller.tampilkan_halaman(HalamanUtama))
-        tombol_kembali.pack(pady=5)
-
+        p1.show()
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    root = tk.Tk()
+    main = MainView(root)
+    main.pack(side="top", fill="both", expand=True)
+    root.wm_geometry("400x400")
+    root.mainloop()
