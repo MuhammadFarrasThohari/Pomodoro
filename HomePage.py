@@ -72,12 +72,13 @@ class HomePage(ctk.CTkFrame):
 
         taskListLabel = ctk.CTkLabel(menuBawahFrame, text="Task List", font=ctk.CTkFont("jersey 10", 15), text_color="#333333")
         taskListLabel.pack(side="left", padx=10, pady=5)
-        taskListLabel.bind("<Button-1>", lambda e: self.master.show_RiwayatPage())
+        # taskListLabel.bind("<Button-1>", lambda e: self.master.show_TaskListPage())
         taskListLabel.bind("<Enter>", lambda e: taskListLabel.configure(text_color="#606060"))
         taskListLabel.bind("<Leave>", lambda e: taskListLabel.configure(text_color="#333333"))
 
         riwayatLabel = ctk.CTkLabel(menuBawahFrame, text="Riwayat", font=ctk.CTkFont("jersey 10", 15), text_color="#333333")
         riwayatLabel.pack(side="right", padx=10, pady=5)
+        riwayatLabel.bind("<Button-1>", lambda e: self.master.show_RiwayatPage())
         riwayatLabel.bind("<Enter>", lambda e: riwayatLabel.configure(text_color="#606060"))
         riwayatLabel.bind("<Leave>", lambda e: riwayatLabel.configure(text_color="#333333"))
 
