@@ -9,8 +9,6 @@ class HomePage(ctk.CTkFrame):
         super().__init__(master, **kwargs)
         self.configure(fg_color="#F1F1F1")
 
-        self.master = master
-
         # Variabel waktu
         self.menit = 0
         self.detik = 0
@@ -74,6 +72,7 @@ class HomePage(ctk.CTkFrame):
 
         taskListLabel = ctk.CTkLabel(menuBawahFrame, text="Task List", font=ctk.CTkFont("jersey 10", 15), text_color="#333333")
         taskListLabel.pack(side="left", padx=10, pady=5)
+        taskListLabel.bind("<Button-1>", lambda e: self.master.show_RiwayatPage())
         taskListLabel.bind("<Enter>", lambda e: taskListLabel.configure(text_color="#606060"))
         taskListLabel.bind("<Leave>", lambda e: taskListLabel.configure(text_color="#333333"))
 
