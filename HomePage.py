@@ -42,9 +42,9 @@ class HomePage(ctk.CTkFrame):
         self.timeLabel.pack(pady=0)
 
         # Tombol kontrol utama
-        startButton = ctk.CTkButton(self, text="Start", command=self.start_timer, width=100, height=40, fg_color="#4F9747",
+        self.startButton = ctk.CTkButton(self, text="Start", command=self.start_timer, width=100, height=40, fg_color="#4F9747",
                                     text_color="white", font=ctk.CTkFont("jersey 10", 15), hover=False)
-        startButton.pack(pady=3)
+        self.startButton.pack(pady=3)
         buttonBawahFrame = ctk.CTkFrame(self)
         buttonBawahFrame.pack()
         buttonBawahFrame.configure(fg_color="#F1F1F1")
@@ -56,14 +56,14 @@ class HomePage(ctk.CTkFrame):
                             hover_color="#D79CA5", border_color="#C72C41", border_width=2)
         resetButton.grid(row=0, column=0, padx=5, pady=5)
 
-        pauseButton = ctk.CTkButton(buttonBawahFrame, text="Pause", fg_color="transparent", command=self.pause_timer,
+        self.pauseButton = ctk.CTkButton(buttonBawahFrame, text="Pause", fg_color="transparent", command=self.pause_timer,
                                     width=100, height=40, text_color="#F6A600", font=ctk.CTkFont("jersey 10", 15),
                                     hover_color="#F3E3C4", border_color="#F6A600", border_width=2)
-        pauseButton.grid(row=0, column=1, padx=5, pady=5)
+        self.pauseButton.grid(row=0, column=1, padx=5, pady=5)
 
-        judulEntry = ctk.CTkEntry(self, width=250, placeholder_text="Judul sesi (misal: Belajar AI)", 
+        self.judulEntry = ctk.CTkEntry(self, width=250, placeholder_text="Judul sesi (misal: Belajar AI)", 
                           font=ctk.CTkFont("jersey 10", size=15), fg_color="white", text_color="black")
-        judulEntry.pack(pady=10)
+        self.judulEntry.pack(pady=10)
 
 
         menuBawahFrame = ctk.CTkFrame(self)
@@ -156,12 +156,21 @@ class HomePage(ctk.CTkFrame):
         self.jumlah_fokus = 0
         self.jumlah_Shortbreak = 0
         self.jumlah_Longbreak = 0
+        self.judulEntry.configure(state="disable")  # Disable entry for judul
+        self.startButton.configure(state="disabled")  # Disable start button
     
     def pause_timer(self):
-        self.is_paused = True
-        if self.timer_id:
-            self.master.after_cancel(self.timer_id)
-        self.statusLabel.configure(text="Paused")
+        if self.is_paused:
+            # Jika sedang paused, lanjutkan timer
+            self.is_paused = False
+            self.countdown()  # Melanjutkan countdown
+        else:
+            # Jika sedang berjalan, hentikan timer
+            if self.timer_id:
+                self.is_paused = True
+                self.master.after_cancel(self.timer_id)
+                self.pauseButton.configure(text="Resume")  # Ubah teks tombol menjadi "Resume"
+                self.statusLabel.configure(text="Paused")
 
     def stop_timer(self):
         if self.waktu_mulai:
@@ -181,6 +190,8 @@ class HomePage(ctk.CTkFrame):
         self.timeLabel.configure(text="00:00")
         self.statusLabel.configure(text="Stopped")
         self.master.after_cancel(self.timer_id) if self.timer_id else None
+        self.judulEntry.configure(state="normal")  # Enable entry for judul
+        self.startButton.configure(state="normal")  # Enable start button
 
     def simpan_riwayat_sesi(self, judul, waktu_mulai, waktu_selesai, fokus, Sbrk, Lbrk):
         durasi = waktu_selesai - waktu_mulai
