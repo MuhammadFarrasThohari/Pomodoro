@@ -72,7 +72,7 @@ class HomePage(ctk.CTkFrame):
 
         taskListLabel = ctk.CTkLabel(menuBawahFrame, text="Task List", font=ctk.CTkFont("jersey 10", 15), text_color="#333333")
         taskListLabel.pack(side="left", padx=10, pady=5)
-        # taskListLabel.bind("<Button-1>", lambda e: self.master.show_TaskListPage())
+        taskListLabel.bind("<Button-1>", lambda e: self.master.show_TaskListPage())
         taskListLabel.bind("<Enter>", lambda e: taskListLabel.configure(text_color="#606060"))
         taskListLabel.bind("<Leave>", lambda e: taskListLabel.configure(text_color="#333333"))
 

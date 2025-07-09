@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from HomePage import HomePage
 from RiwayatPage import RiwayatPage
+from TaskListPage import TaskListPage
 
 class PomodoroApp(ctk.CTk):
     def __init__(self, *args, **kwargs):
@@ -16,6 +17,7 @@ class PomodoroApp(ctk.CTk):
         # Initialize pages
         self.riwayat_page = RiwayatPage(self)
         self.home_page = HomePage(self)
+        self.task_list_page = TaskListPage(self)
 
         self.home_page.pack(fill="both", expand=True, pady=0)
         # self.riwayat_page.pack(fill="both", expand=True, pady=0)
@@ -25,9 +27,16 @@ class PomodoroApp(ctk.CTk):
     def show_RiwayatPage(self):
         self.riwayat_page.pack(fill="both", expand=True, pady=0)
         self.home_page.pack_forget()
+        self.task_list_page.pack_forget()
     def show_HomePage(self):
         self.home_page.pack(fill="both", expand=True, pady=0)
+        self.task_list_page.pack_forget()
         self.riwayat_page.pack_forget()
+    def show_TaskListPage(self):
+        self.task_list_page.pack(fill="both", expand=True, pady=0)
+        self.home_page.pack_forget()
+        self.riwayat_page.pack_forget()
+
 
 
 if __name__ == "__main__":
