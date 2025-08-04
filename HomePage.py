@@ -208,13 +208,26 @@ class HomePage(ctk.CTkFrame):
         }
 
         path = "pomodoro_sessions.json"
+        data = []
+        
         if os.path.exists(path):
-            with open(path, "r") as f:
-                data = json.load(f)
-        else:
-            data = []
-
+            try:
+                with open(path, "r") as f:
+                    content = f.read().strip()
+                    if content:  # Cek apakah file tidak kosong
+                        data = json.loads(content)
+                    else:
+                        data = []
+            except (json.JSONDecodeError, ValueError) as e:
+                print(f"Error membaca file JSON: {e}")
+                print("Membuat file baru...")
+                data = []
+        
         data.append(log)
 
-        with open(path, "w") as f:
-            json.dump(data, f, indent=4)
+        try:
+            with open(path, "w") as f:
+                json.dump(data, f, indent=4)
+            print(f"Sesi berhasil disimpan: {judul}")
+        except Exception as e:
+            print(f"Error menyimpan file: {e}")
