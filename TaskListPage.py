@@ -1,6 +1,5 @@
 import customtkinter as ctk
 import json
-import os
 
 FILE_NAME = "task_data.json"
 

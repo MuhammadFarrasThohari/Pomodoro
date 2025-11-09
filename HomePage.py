@@ -1,6 +1,5 @@
 import customtkinter as ctk
 import datetime
-import os
 import json
 
 
