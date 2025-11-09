@@ -161,37 +161,45 @@ class HomePage(ctk.CTkFrame):
     
     def pause_timer(self):
         if self.is_paused:
-            # Jika sedang paused, lanjutkan timer
+            # Resume timer
             self.is_paused = False
-            self.countdown()  # Melanjutkan countdown
+            self.pauseButton.configure(text="Pause")
+            self.countdown()
         else:
-            # Jika sedang berjalan, hentikan timer
+            # Pause timer
             if self.timer_id:
                 self.is_paused = True
                 self.master.after_cancel(self.timer_id)
-                self.pauseButton.configure(text="Resume")  # Ubah teks tombol menjadi "Resume"
+                self.timer_id = None
+                self.pauseButton.configure(text="Resume")
                 self.statusLabel.configure(text="Paused")
 
     def stop_timer(self):
+        # Cancel timer if running
+        if self.timer_id:
+            self.master.after_cancel(self.timer_id)
+            self.timer_id = None
+        
+        # Save session if one was started
         if self.waktu_mulai:
             self.waktu_selesai = datetime.datetime.now()
             judul = self.judulEntry.get() or "Tanpa Judul"
             self.simpan_riwayat_sesi(judul, self.waktu_mulai, self.waktu_selesai, self.jumlah_fokus, self.jumlah_Shortbreak, self.jumlah_Longbreak)
             print(f"Disimpan: {judul} ({self.jumlah_fokus} fokus, {self.jumlah_Shortbreak} short break, {self.jumlah_Longbreak} long break)")
-
         else:
             print("Belum ada sesi dimulai.")
 
-        # Reset tampilan dan variabel
+        # Reset state
         self.waktu_mulai = None
         self.jumlah_fokus = 0
         self.jumlah_Shortbreak = 0
         self.jumlah_Longbreak = 0
+        self.is_paused = False
         self.timeLabel.configure(text="00:00")
         self.statusLabel.configure(text="Stopped")
-        self.master.after_cancel(self.timer_id) if self.timer_id else None
-        self.judulEntry.configure(state="normal")  # Enable entry for judul
-        self.startButton.configure(state="normal")  # Enable start button
+        self.pauseButton.configure(text="Pause")
+        self.judulEntry.configure(state="normal")
+        self.startButton.configure(state="normal")
 
     def simpan_riwayat_sesi(self, judul, waktu_mulai, waktu_selesai, fokus, Sbrk, Lbrk):
         durasi = waktu_selesai - waktu_mulai
