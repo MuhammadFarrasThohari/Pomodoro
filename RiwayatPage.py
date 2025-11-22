@@ -65,19 +65,18 @@ class RiwayatPage(ctk.CTkFrame):
         self.load_and_display_data()  # Memuat dan menampilkan data saat inisialisasi
 
     def load_and_display_data(self):
-
+        # Clear existing widgets
         for widget in self.scrollFrame.winfo_children():
             widget.destroy()
         
+        # Load data from file with simplified error handling
         try:
             with open("pomodoro_sessions.json", 'r') as file:
                 d = json.load(file)
-        except FileNotFoundError:
+        except (FileNotFoundError, json.JSONDecodeError):
             d = []
-        except json.JSONDecodeError:
-            d = [] # Handle empty or invalid JSON
 
-        # Menambahkan data ke scrollable frame
+        # Add data to scrollable frame
         for i, item in enumerate(d):
             session_label = ctk.CTkLabel(self.scrollFrame, text=item["tanggal"], font=ctk.CTkFont(size=15, family="Jersey 10"), text_color="#F1F1F1")
             session_label.grid(row=i, column=0, padx=10, pady=0, sticky="nsew")
@@ -88,10 +87,11 @@ class RiwayatPage(ctk.CTkFrame):
             status_label = ctk.CTkLabel(self.scrollFrame, text="COMPLETED", font=ctk.CTkFont(size=15, family="Jersey 10"), text_color="#72E865")
             status_label.grid(row=i, column=2, padx=10, pady=0, sticky="nsew")
 
+            # Fix lambda closure issue by using default argument
             delete_button = ctk.CTkButton(
                 self.scrollFrame,
                 text="Delete",
-                command=lambda index=i: self.delete_entry(index),
+                command=lambda idx=i: self.delete_entry(idx),
                 font=ctk.CTkFont(size=12, family="Jersey 10"),
                 fg_color="#CC3333", hover_color="#AA2222",
                 text_color="#F1F1F1",
@@ -101,14 +101,14 @@ class RiwayatPage(ctk.CTkFrame):
 
     def delete_entry(self, index_to_delete):
         if messagebox.askyesno("Confirm Deletion", "Are you sure you want to delete this entry?"):
+            # Load data with simplified error handling
             try:
                 with open("pomodoro_sessions.json", 'r') as file:
                     data = json.load(file)
-            except FileNotFoundError:
-                data = []
-            except json.JSONDecodeError:
+            except (FileNotFoundError, json.JSONDecodeError):
                 data = []
 
+            # Delete the entry and save
             if 0 <= index_to_delete < len(data):
                 del data[index_to_delete]
                 with open("pomodoro_sessions.json", 'w') as file:

@@ -1,6 +1,5 @@
 import customtkinter as ctk
 import json
-import os
 
 FILE_NAME = "task_data.json"
 
@@ -88,14 +87,20 @@ class TaskListPage(ctk.CTkFrame):
         riwayatLabel.bind("<Button-1>", lambda e: self.master.show_RiwayatPage())   
     
     def load_tasks(self):
-        if os.path.exists(FILE_NAME):
+        """Load tasks from file with simplified error handling"""
+        try:
             with open(FILE_NAME, "r") as file:
                 return json.load(file)
-        return []
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
     
     def save_tasks(self):
-        with open(FILE_NAME, "w") as file:
-            json.dump(self.tasks, file, indent=4)
+        """Save tasks to file"""
+        try:
+            with open(FILE_NAME, "w") as file:
+                json.dump(self.tasks, file, indent=4)
+        except Exception as e:
+            print(f"Error saving tasks: {e}")
     
     def add_task_to_ui(self, task_text):
         cb = ctk.CTkCheckBox(
